@@ -1,4 +1,5 @@
 from collections import deque
+import sys
 
 
 def width_find(graph, first_vertex):
@@ -48,8 +49,34 @@ def main():
     make_graph(my_graph, 2, 4)
     make_graph(my_graph, 5, 4)
 
+    graph_type_flag = True
+    _start_vertex = 0
+    search_type = 'd'
+
+    for line in sys.stdin:
+        line = line.rstrip('\r\n')
+        if len(line.split()) == 3:
+            if line.split()[0] == 'd':
+                graph_type_flag = False
+            _start_vertex = line.split()[1]
+            search_type = line.split()[2]
+
+        elif len(line.split()) == 2:
+            make_graph(my_graph, line.strip()[0], line.strip()[1], graph_type_flag)
+
+        elif not (line and line.strip()):
+            continue
+        else:
+            print("error")
+
+    if search_type == 'd':
+        depth_find(my_graph, _start_vertex)
+    elif search_type == 'b':
+        width_find(my_graph, _start_vertex)
+
     # print(my_graph[2])
-    #width_find(my_graph, 1)
-    depth_find(my_graph, 1)
+    # width_find(my_graph, 1)
+    # depth_find(my_graph, 1)
+
 
 main()
