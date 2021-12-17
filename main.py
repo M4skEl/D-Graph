@@ -31,23 +31,25 @@ def make_graph(graph, start, end, flag=True):
         graph[start] = {end}
     else:
         graph[start].add(end)
-    if flag:
-        if end not in graph:
+    if end not in graph:
+        if flag:
             graph[end] = {start}
         else:
-            graph[end].add(start)
+            graph[end] = set()
+    elif flag:
+        graph[end].add(start)
 
 
 my_graph = {}
 
 
 def main():
-    make_graph(my_graph, 1, 3)
-    make_graph(my_graph, 1, 2)
-    make_graph(my_graph, 1, 5)
-    make_graph(my_graph, 2, 3)
-    make_graph(my_graph, 2, 4)
-    make_graph(my_graph, 5, 4)
+    # make_graph(my_graph, 1, 3)
+    # make_graph(my_graph, 1, 2)
+    # make_graph(my_graph, 1, 5)
+    # make_graph(my_graph, 2, 3)
+    # make_graph(my_graph, 2, 4)
+    # make_graph(my_graph, 5, 4)
 
     graph_type_flag = True
     _start_vertex = 0
@@ -62,7 +64,13 @@ def main():
             search_type = line.split()[2]
 
         elif len(line.split()) == 2:
-            make_graph(my_graph, line.strip()[0], line.strip()[1], graph_type_flag)
+            make_graph(my_graph, line.split()[0], line.split()[1], graph_type_flag)
+
+        elif line == "end":
+            if search_type == 'd':
+                depth_find(my_graph, _start_vertex)
+            elif search_type == 'b':
+                width_find(my_graph, _start_vertex)
 
         elif not (line and line.strip()):
             continue
@@ -76,7 +84,7 @@ def main():
 
     # print(my_graph[2])
     # width_find(my_graph, 1)
-    # depth_find(my_graph, 1)
+    # `A depth_find(my_graph, 1)
 
 
 main()
